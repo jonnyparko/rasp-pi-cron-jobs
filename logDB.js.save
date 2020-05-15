@@ -1,0 +1,23 @@
+var sensor = require("node-dht-sensor");
+
+var fs = require('fs')
+
+fs.readFile('./dbAccess.json', 'utf8', (err, jsonString) => {
+    if (err) {
+        console.log("Error reading db access file from disk:", err);
+        return;
+    }
+    try {
+      console.log("*********Reading dbAccess file.********************");
+      const dbAccess = JSON.parse(jsonString);
+      userName = dbAccess.userName;
+      password = dbAccess.password;
+      var mongo = require('mongodb');
+      var MongoClient = require('mongodb').MongoClient;
+      var url = "mongodb+srv://" + userName + ":" + password + "@cluster0-4r75h.mongodb.net/test?retryWrites=true&w=majority";
+      
+      console.log("************db url: " + url);
+    } catch(err) {
+        console.log('Error parsing JSON string for DB access file:', err)
+    }
+})
